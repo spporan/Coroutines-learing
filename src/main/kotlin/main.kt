@@ -1,5 +1,8 @@
 import com.sun.xml.internal.ws.api.streaming.XMLStreamWriterFactory
 import kotlinx.coroutines.*
+import java.util.concurrent.Executor
+import java.util.concurrent.ExecutorService
+import java.util.concurrent.Executors
 
 fun main(){
    // exampleBlocking()
@@ -75,11 +78,17 @@ fun exampleLaunchCoroutineScope( )= runBlocking {
     //this means this bloc execute and wait for 1000milsec
     //but call from main thread
     //when use Dispatchers.Default then create DefaultDispatcher worker
-   launch(Dispatchers.Default) {
+    val customDispatcher=Executors.newFixedThreadPool(2).asCoroutineDispatcher()
+   launch(customDispatcher) {
         delayedPrint("Two -from thread ${Thread.currentThread().name}")
 
     }
     println("Three -from thread ${Thread.currentThread().name}")
+
+    //when use custom dispatcher the programme doesn't exit
+    //need to shutdown programme manually
+
+    (customDispatcher.executor as ExecutorService).shutdown()
 
 
 }
