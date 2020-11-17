@@ -102,19 +102,19 @@ fun exampleAwaitAsync()= runBlocking {
     val startTime=System.currentTimeMillis()
 
     //this line of code run asynchronously
-    /*val num1=async {calculateComplexThings(100000)}
+    val num1=async {calculateComplexThings(100000)}
     val  num2=async { calculateComplexThings(10000000) }
-    val  num3=async { calculateComplexThings(100000000) }*/
+    val  num3=async { calculateComplexThings(100000000) }
 
     //but if we use await this line code then run synchronously then takes time 3000 more millisec
-    val num1=async {calculateComplexThings(100000)}.await()
+    /*val num1=async {calculateComplexThings(100000)}.await()
     val  num2=async { calculateComplexThings(10000000) }.await()
-    val  num3=async { calculateComplexThings(100000000) }.await()
+    val  num3=async { calculateComplexThings(100000000) }.await()*/
     //that's why take time only 1024 millisec
-   // val sum=num1.await()+num2.await()+num3.await()
+    val sum=num1.await()+num2.await()+num3.await()
 
     //removed await here and taken time 3000 mili more time
-     val sum=num1+num2+num3
+    // val sum=num1+num2+num3
 
     println("sum of the numbers =$sum")
     val endTime=System.currentTimeMillis()
