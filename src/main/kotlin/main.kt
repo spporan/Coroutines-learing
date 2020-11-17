@@ -6,7 +6,7 @@ import java.util.concurrent.Executors
 
 fun main(){
    // exampleBlocking()
-    exampleAwaitAsync()
+    exampleWithContext()
 }
 
 suspend fun delayedPrint(msg:String){
@@ -115,6 +115,22 @@ fun exampleAwaitAsync()= runBlocking {
 
     //removed await here and taken time 3000 mili more time
     // val sum=num1+num2+num3
+
+    println("sum of the numbers =$sum")
+    val endTime=System.currentTimeMillis()
+    println("Time taken =${endTime-startTime}")
+
+}
+
+fun exampleWithContext()= runBlocking {
+    val startTime=System.currentTimeMillis()
+
+    //when don't to need to run concurrently then use withContext otherwise use async/await
+    val result1= withContext(Dispatchers.Default) {calculateComplexThings(100000)}
+    val  result2= withContext(Dispatchers.Default) { calculateComplexThings(10000000) }
+    val  result3= withContext(Dispatchers.Default) { calculateComplexThings(100000000) }
+
+    val sum=result1+result2+result3
 
     println("sum of the numbers =$sum")
     val endTime=System.currentTimeMillis()
