@@ -3,7 +3,7 @@ import kotlinx.coroutines.*
 
 fun main(){
    // exampleBlocking()
-    exampleLaunchGlobal()
+    exampleLaunchGlobalWaiting()
 }
 
 suspend fun delayedPrint(msg:String){
@@ -50,3 +50,20 @@ fun exampleLaunchGlobal ( )= runBlocking {
     delay(3000)
 
 }
+
+fun exampleLaunchGlobalWaiting( )= runBlocking {
+    println("One -from thread ${Thread.currentThread().name}")
+
+    //didn't blocking main thread
+    val job=GlobalScope.launch {
+        delayedPrint("Two -from thread ${Thread.currentThread().name}")
+
+    }
+    println("Three -from thread ${Thread.currentThread().name}")
+
+
+    //for waiting for  job
+    job.join()
+
+}
+
