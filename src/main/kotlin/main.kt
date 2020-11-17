@@ -3,7 +3,7 @@ import kotlinx.coroutines.*
 
 fun main(){
    // exampleBlocking()
-    exampleLaunchGlobalWaiting()
+    exampleLaunchCoroutineScope()
 }
 
 suspend fun delayedPrint(msg:String){
@@ -67,3 +67,19 @@ fun exampleLaunchGlobalWaiting( )= runBlocking {
 
 }
 
+fun exampleLaunchCoroutineScope( )= runBlocking {
+    println("One -from thread ${Thread.currentThread().name}")
+
+    //didn't blocking main thread
+    //only block the local thread means that coroutine scope
+    //this means this bloc execute and wait for 1000milsec
+    //but call from main thread
+    //when use Dispatchers.Default then create DefaultDispatcher worker
+   launch(Dispatchers.Default) {
+        delayedPrint("Two -from thread ${Thread.currentThread().name}")
+
+    }
+    println("Three -from thread ${Thread.currentThread().name}")
+
+
+}
