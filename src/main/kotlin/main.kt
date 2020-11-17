@@ -6,7 +6,7 @@ import java.util.concurrent.Executors
 
 fun main(){
    // exampleBlocking()
-    exampleLaunchCoroutineScope()
+    exampleAwaitAsync()
 }
 
 suspend fun delayedPrint(msg:String){
@@ -90,5 +90,27 @@ fun exampleLaunchCoroutineScope( )= runBlocking {
 
     (customDispatcher.executor as ExecutorService).shutdown()
 
+
+}
+
+suspend  fun calculateComplexThings(num:Int):Int{
+    delay(1000)
+    return  num*100
+}
+
+fun exampleAwaitAsync()= runBlocking {
+    val startTime=System.currentTimeMillis()
+
+    //this line of code run asynchronously
+    //but if we use await this line code then run synchronously then takes time 3000 more millisec
+    val num1=async {calculateComplexThings(100000)}
+    val  num2=async { calculateComplexThings(10000000) }
+    val  num3=async { calculateComplexThings(100000000) }
+
+    //that's why take time only 1024 millisec
+    val sum=num1.await()+num2.await()+num3.await()
+    println("sum of the numbers =$sum")
+    val endTime=System.currentTimeMillis()
+    println("Time taken =${endTime-startTime}")
 
 }
