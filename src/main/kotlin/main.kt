@@ -1,11 +1,9 @@
 import com.sun.xml.internal.ws.api.streaming.XMLStreamWriterFactory
-import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.delay
-import kotlinx.coroutines.runBlocking
+import kotlinx.coroutines.*
 
 fun main(){
    // exampleBlocking()
-    exampleBlockingDispatcher()
+    exampleLaunchGlobal()
 }
 
 suspend fun delayedPrint(msg:String){
@@ -33,5 +31,22 @@ fun exampleBlockingDispatcher(){
     println("Three -from thread ${Thread.currentThread().name}")
 
     //It still run after the runBlocking done
+
+}
+
+
+fun exampleLaunchGlobal ( )= runBlocking {
+    println("One -from thread ${Thread.currentThread().name}")
+
+    //didn't blocking main thread
+    GlobalScope.launch {
+        delayedPrint("Two -from thread ${Thread.currentThread().name}")
+
+    }
+    println("Three -from thread ${Thread.currentThread().name}")
+
+
+    //for delayed Global scope
+    delay(3000)
 
 }
