@@ -9,12 +9,10 @@ suspend fun delayedPrint(msg:String){
     delay(1000)
     println(msg)
 }
-fun exampleBlocking(){
+fun exampleBlocking()= runBlocking{
     println("One")
 
-    runBlocking {
-        delayedPrint("Two")
+    delayedPrint("Two")
 
-    }
     println("Three")
 }
