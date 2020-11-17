@@ -11,6 +11,7 @@ suspend fun delayedPrint(msg:String){
 }
 fun exampleBlocking(){
     println("One")
+
     runBlocking {
         delayedPrint("Two")
 
